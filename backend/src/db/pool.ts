@@ -306,7 +306,7 @@ async function getPool() {
   if (!pgPoolInstance && process.env.DATABASE_URL) {
     const { Pool } = await import('pg');
     pgPoolInstance = new Pool({
-      connectionString: process.env.DATABASE_URL,
+      connectionString: process.env.DATABASE_URL?.replace('sslmode=require', 'sslmode=verify-full'),
       max: 20,
       idleTimeoutMillis: 30000,
       ssl: { rejectUnauthorized: false },
