@@ -140,11 +140,15 @@ app.get('/api/health', (_req, res) => {
 });
 
 async function autoSeed() {
-  const existing = await query('SELECT COUNT(*) as cnt FROM professionals', []);
-  if (existing.rows[0]?.cnt > 0) return;
-  const { default: seed } = await import('./db/seed');
-  await seed();
-  console.log('[seed] Mock data loaded');
+  try {
+    const existing = await query('SELECT COUNT(*) as cnt FROM professionals', []);
+    if (existing.rows[0]?.cnt > 0) return;
+    const { default: seed } = await import('./db/seed');
+    await seed();
+    console.log('[seed] Mock data loaded');
+  } catch (err: any) {
+    console.error('[seed] Auto-seed failed:', err?.message);
+  }
 }
 
 const PORT = parseInt(process.env.PORT || '4000', 10);
