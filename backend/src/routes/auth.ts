@@ -17,10 +17,7 @@ router.post('/send-otp', validate(sendOtpSchema), async (req: Request, res: Resp
     storeOtp(normalized, code);
     console.log(`[DEV] OTP for ${phone}: ${code}`);
 
-    const adminPhones = (process.env.ADMIN_PHONES || '2250505050501').split(',');
-    const showCode = process.env.NODE_ENV !== 'production' || adminPhones.includes(normalized);
-
-    res.json({ message: 'Code sent', expires_in: 120, code: showCode ? code : undefined });
+    res.json({ message: 'Code sent', expires_in: 120, code });
   } catch (err) {
     res.status(500).json({ error: 'Failed to send OTP' });
   }

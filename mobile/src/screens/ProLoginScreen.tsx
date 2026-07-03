@@ -16,6 +16,7 @@ export default function ProLoginScreen({ navigation }: any) {
   const [step, setStep] = useState<'phone' | 'otp'>('phone');
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+  const [otpCode, setOtpCode] = useState('');
   const cooldownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
@@ -25,7 +26,8 @@ export default function ProLoginScreen({ navigation }: any) {
   const sendOtp = async () => {
     setLoading(true);
     try {
-      await api.auth.sendOtp(phone);
+      const data = await api.auth.sendOtp(phone);
+      if (data.code) setOtpCode(data.code);
       setStep('otp');
       setCooldown(60);
       const timer = setInterval(() => {
@@ -75,6 +77,9 @@ export default function ProLoginScreen({ navigation }: any) {
         ) : (
           <>
             <Text style={styles.info}>Code envoyé au {phone}</Text>
+            {otpCode ? (
+              <Text style={styles.otpDisplay}>{otpCode}</Text>
+            ) : null}
             <Input label="Code de vérification" placeholder="123456" value={code} onChangeText={setCode} keyboardType="number-pad" maxLength={6} autoFocus />
             <Button title="Se connecter" onPress={verifyOtp} loading={loading} disabled={code.length < 6} />
           </>
@@ -97,4 +102,17 @@ const styles = StyleSheet.create({
   title: { fontSize: FontSize.largeTitle, fontWeight: '800', color: Colors.black, textAlign: 'center' },
   subtitle: { fontSize: FontSize.body, color: Colors.mediumGray, textAlign: 'center', marginBottom: Spacing.xxl },
   info: { fontSize: FontSize.body, color: Colors.mediumGray, textAlign: 'center', marginBottom: Spacing.lg },
+  otpDisplay: {
+    fontSize: 32,
+    fontWeight: '700',
+    letterSpacing: 4,
+    textAlign: 'center',
+    color: Colors.black,
+    backgroundColor: '#E8F0FE',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    marginBottom: Spacing.lg,
+    overflow: 'hidden',
+  },
 });

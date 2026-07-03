@@ -16,6 +16,7 @@ export default function LoginScreen({ navigation }: any) {
   const [step, setStep] = useState<'phone' | 'otp'>('phone');
   const [loading, setLoading] = useState(false);
   const [cooldown, setCooldown] = useState(0);
+  const [otpCode, setOtpCode] = useState('');
 
   const cooldownTimer = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -26,7 +27,8 @@ export default function LoginScreen({ navigation }: any) {
   const sendOtp = async () => {
     setLoading(true);
     try {
-      await api.auth.sendOtp(phone);
+      const data = await api.auth.sendOtp(phone);
+      if (data.code) setOtpCode(data.code);
       setStep('otp');
       setCooldown(60);
       const timer = setInterval(() => {
@@ -93,6 +95,9 @@ export default function LoginScreen({ navigation }: any) {
           ) : (
             <>
               <Text style={styles.info}>Code envoyé au {phone}</Text>
+              {otpCode ? (
+                <Text style={styles.otpDisplay}>{otpCode}</Text>
+              ) : null}
               <Input
                 label="Code de vérification"
                 placeholder="123456"
@@ -169,6 +174,19 @@ const styles = StyleSheet.create({
     color: Colors.mediumGray,
     textAlign: 'center',
     marginBottom: Spacing.lg,
+  },
+  otpDisplay: {
+    fontSize: 32,
+    fontWeight: '700',
+    letterSpacing: 4,
+    textAlign: 'center',
+    color: Colors.black,
+    backgroundColor: '#E8F0FE',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    marginBottom: Spacing.lg,
+    overflow: 'hidden',
   },
   backLink: {
     textAlign: 'center',
