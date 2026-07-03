@@ -1,0 +1,40 @@
+{
+  "expo": {
+    "name": "MecaCI",
+    "slug": "mecaci",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.mecaci.mobile",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "MecaCI utilise votre position pour trouver des mécaniciens et garages à proximité.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "MecaCI suit votre position en arrière-plan pour partager votre localisation avec le professionnel pendant une mission.",
+        "UIBackgroundModes": ["location", "fetch"]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/icon.png",
+        "backgroundImage": "./assets/icon.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "com.mecaci.mobile",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-secure-store",
+      "expo-status-bar"
+    ]
+  }
+}

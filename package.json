@@ -1,0 +1,12 @@
+{
+  "name": "mecaci",
+  "private": true,
+  "workspaces": [
+    "backend",
+    "admin"
+  ],
+  "dependencies": {
+    "react-router-dom": "^7.17.0",
+    "recharts": "^3.8.1"
+  }
+}
