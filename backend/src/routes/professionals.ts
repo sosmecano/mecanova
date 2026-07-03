@@ -6,6 +6,7 @@ import { validate } from '../middleware/validate';
 import { sendOtpSchema, registerProSchema, updateProSchema, availabilitySchema, verifyProOtpSchema } from '../schemas';
 import { haversineDistance } from '../utils/haversine';
 import { storeOtp, verifyOtp } from '../utils/otpStore';
+import { sendSms } from '../utils/sms';
 
 const router = Router();
 
@@ -34,10 +35,10 @@ router.post('/send-otp', validate(sendOtpSchema), async (req: Request, res: Resp
     const code = crypto.randomInt(100000, 999999).toString();
     const normalized = phone.replace(/[\s\-\+]/g, '');
     storeOtp(normalized, code);
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`[DEV] OTP for pro ${phone}: ${code}`);
-    }
-    res.json({ message: 'Code sent', expires_in: 120 });
+
+    sendSms(normalized, `Votre code MecaCI pro : ${code}. Valable 2 minutes.`);
+
+    res.json({ message: 'Code sent', expires_in: 120, code });
   } catch (err) {
     res.status(500).json({ error: 'Failed to send OTP' });
   }
