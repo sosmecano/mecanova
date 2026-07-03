@@ -7,12 +7,15 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
   const [step, setStep] = useState<'phone' | 'code'>('phone');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [otpCode, setOtpCode] = useState('');
 
   const sendOtp = async () => {
     setLoading(true);
     setError('');
+    setOtpCode('');
     try {
-      await adminApi.sendOtp(phone);
+      const data = await adminApi.sendOtp(phone);
+      if (data.code) setOtpCode(data.code);
       setStep('code');
     } catch (e: any) {
       setError(e.message || 'Erreur lors de l\'envoi du code');
@@ -58,6 +61,11 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
         ) : (
           <>
             <p style={{ marginBottom: 16, color: '#666' }}>Code envoyé au {phone}</p>
+            {otpCode && (
+              <p style={{ marginBottom: 20, padding: '12px 16px', background: '#E8F0FE', borderRadius: 12, fontSize: 24, fontWeight: 700, letterSpacing: 4, color: '#1D1D1F' }}>
+                {otpCode}
+              </p>
+            )}
             <input
               style={styles.input}
               placeholder="Code reçu"

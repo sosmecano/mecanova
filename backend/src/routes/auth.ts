@@ -15,11 +15,12 @@ router.post('/send-otp', validate(sendOtpSchema), async (req: Request, res: Resp
     const code = crypto.randomInt(100000, 999999).toString();
     const normalized = phone.replace(/[\s\-\+]/g, '');
     storeOtp(normalized, code);
-    if (process.env.NODE_ENV !== 'production') {
-      console.log(`[DEV] OTP for ${phone}: ${code}`);
-    }
+    console.log(`[DEV] OTP for ${phone}: ${code}`);
 
-    res.json({ message: 'Code sent', expires_in: 120 });
+    const adminPhones = (process.env.ADMIN_PHONES || '2250505050501').split(',');
+    const showCode = process.env.NODE_ENV !== 'production' || adminPhones.includes(normalized);
+
+    res.json({ message: 'Code sent', expires_in: 120, code: showCode ? code : undefined });
   } catch (err) {
     res.status(500).json({ error: 'Failed to send OTP' });
   }
