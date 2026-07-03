@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL || '/api';
+const BASE_URL = '/api';
 
 async function fetchWithRetry(path: string, options: RequestInit = {}, retries = 3): Promise<Response> {
   for (let i = 0; i < retries; i++) {
