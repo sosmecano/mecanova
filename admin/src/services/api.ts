@@ -1,5 +1,19 @@
 const BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
+async function fetchWithRetry(path: string, options: RequestInit = {}, retries = 3): Promise<Response> {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await fetch(`${BASE_URL}${path}`, { ...options });
+      if (!res.ok && i < retries - 1 && res.status >= 500) continue;
+      return res;
+    } catch (e) {
+      if (i === retries - 1) throw e;
+      await new Promise(r => setTimeout(r, 2000 * (i + 1)));
+    }
+  }
+  throw new Error('Failed to fetch');
+}
+
 async function request(path: string, options: RequestInit = {}) {
   const token = localStorage.getItem('admin_token');
   const headers: Record<string, string> = {
@@ -8,7 +22,7 @@ async function request(path: string, options: RequestInit = {}) {
   };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers });
+  const res = await fetchWithRetry(path, { ...options, headers });
   if (!res.ok) {
     if (res.status === 401) {
       localStorage.removeItem('admin_token');
