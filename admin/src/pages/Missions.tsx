@@ -42,6 +42,9 @@ export default function Missions() {
 
   useEffect(() => { load(); }, [filter]);
 
+  if (loading) return <div style={styles.loading}>Chargement...</div>;
+  if (error) return <div style={styles.loading}>Erreur : {error}</div>;
+
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Missions</h1>
@@ -82,4 +85,5 @@ const styles: Record<string, React.CSSProperties> = {
   tableHeader: { display: 'grid', gridTemplateColumns: '1.5fr 1.5fr 1fr 2fr 1fr 1fr', padding: '16px 20px', background: '#F5F5F7', fontWeight: 600, color: '#86868B', fontSize: 13 },
   tableRow: { display: 'grid', gridTemplateColumns: '1.5fr 1.5fr 1fr 2fr 1fr 1fr', padding: '14px 20px', borderBottom: '1px solid #E5E5EA', alignItems: 'center', fontSize: 14 },
   empty: { padding: 24, textAlign: 'center', color: '#86868B' },
+  loading: { padding: 32, fontSize: 18, color: '#86868B' },
 };

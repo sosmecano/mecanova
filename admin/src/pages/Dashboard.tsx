@@ -34,6 +34,7 @@ export default function Dashboard() {
 
   if (loading) return <div style={styles.loading}>Chargement...</div>;
   if (error) return <div style={styles.loading}>Erreur : {error}</div>;
+  if (!data) return <div style={styles.loading}>Aucune donnée</div>;
 
   const cards = [
     { label: 'Utilisateurs', value: data.total_users, color: '#007AFF' },

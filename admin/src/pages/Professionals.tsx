@@ -34,6 +34,9 @@ export default function Professionals() {
 
   useEffect(() => { load(); }, [filter]);
 
+  if (loading) return <div style={{ padding: 32, fontSize: 18, color: '#86868B' }}>Chargement...</div>;
+  if (error) return <div style={{ padding: 32, fontSize: 18, color: '#86868B' }}>Erreur : {error}</div>;
+
   const validate = async (id: string, action: string) => {
     setError(null);
     try {

@@ -32,15 +32,14 @@ export default function Users() {
 
   useEffect(() => { load(); }, []);
 
+  if (loading) return <div style={{ padding: 32, fontSize: 18, color: '#86868B' }}>Chargement...</div>;
+  if (error) return <div style={{ padding: 32, fontSize: 18, color: '#86868B' }}>Erreur : {error}</div>;
+
   const suspend = async (id: string) => {
     if (!confirm('Suspendre cet utilisateur ?')) return;
     setError(null);
     try {
-      const res = await fetch(`/api/admin/users/${id}/suspend`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + localStorage.getItem('admin_token') },
-      });
-      if (!res.ok) throw new Error('Erreur lors de la suspension');
+      await adminApi.suspendUser(id);
       load();
     } catch (e: any) {
       setError(e.message || 'Erreur de suspension');

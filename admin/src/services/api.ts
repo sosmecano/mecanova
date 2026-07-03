@@ -35,6 +35,7 @@ export const adminApi = {
       body: JSON.stringify({ action }),
     }),
   users: () => request('/admin/users'),
+  suspendUser: (id: string) => request(`/admin/users/${id}/suspend`, { method: 'PATCH' }),
   missions: (status?: string) => request(`/admin/missions?status=${status || 'all'}`),
   payments: () => request('/admin/payments'),
 };

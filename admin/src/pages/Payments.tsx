@@ -32,6 +32,9 @@ export default function Payments() {
     })();
   }, []);
 
+  if (loading) return <div style={{ padding: 32, fontSize: 18, color: '#86868B' }}>Chargement...</div>;
+  if (error) return <div style={{ padding: 32, fontSize: 18, color: '#86868B' }}>Erreur : {error}</div>;
+
   const total = payments.reduce((s, p) => s + (p.amount || 0), 0);
   const commissions = payments.reduce((s, p) => s + (p.commission || 0), 0);
 
