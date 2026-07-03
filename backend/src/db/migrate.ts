@@ -3,7 +3,7 @@ import path from 'path';
 import { pool } from './pool';
 
 async function migrate() {
-  const sqlPath = path.join(__dirname, '../../database/001_schema.sql');
+  const sqlPath = path.resolve(__dirname, '../../../database/001_schema.sql');
   const sql = fs.readFileSync(sqlPath, 'utf-8');
 
   try {
