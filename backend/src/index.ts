@@ -28,7 +28,7 @@ if (!JWT_SECRET) {
   throw new Error('JWT_SECRET environment variable is required');
 }
 
-const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || 'http://localhost:5173,http://localhost:8081').split(',');
+const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || 'http://localhost:5173,http://localhost:8081,https://meca-ci-theta.vercel.app').split(',');
 
 const app = express();
 const httpServer = createServer(app);
