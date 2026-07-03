@@ -46,6 +46,10 @@ app.use(cors({
 }));
 app.use(express.json({ limit: '1mb' }));
 
+app.get('/', (_req, res) => {
+  res.json({ status: 'ok', app: 'MecaCI API', version: '1.0.0' });
+});
+
 const otpLimiter = rateLimit({
   windowMs: 60 * 1000,
   max: 3,
