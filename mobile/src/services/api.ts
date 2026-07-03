@@ -1,7 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import { File, UploadType } from 'expo-file-system';
 
-const BASE_URL = 'http://192.168.100.104:4000/api';
+const BASE_URL = 'https://mecaci.onrender.com/api';
 const TOKEN_KEY = 'auth_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
 
