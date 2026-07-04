@@ -154,6 +154,44 @@ router.patch('/:id/status', validate(updateMissionStatusSchema), async (req: Aut
   res.json(result.rows[0]);
 });
 
+router.post('/:id/arrive', async (req: AuthRequest, res: Response) => {
+  if (!req.proId) return res.status(403).json({ error: 'Forbidden' });
+
+  const mission = await query('SELECT * FROM missions WHERE id = $1', [req.params.id]);
+  if (mission.rows.length === 0) return res.status(404).json({ error: 'Mission not found' });
+  const m = mission.rows[0];
+  if (m.professional_id !== req.proId) return res.status(403).json({ error: 'Forbidden' });
+  if (m.status === 'arrived' || m.status === 'in_progress' || m.status === 'completed') {
+    return res.status(400).json({ error: 'Mission already in progress or completed' });
+  }
+
+  const { lat, lng } = req.body;
+  if (lat && lng && m.location_lat && m.location_lng) {
+    const dist = haversineDistance(
+      parseFloat(lat), parseFloat(lng),
+      parseFloat(m.location_lat), parseFloat(m.location_lng)
+    );
+    if (dist > 0.5) {
+      return res.status(400).json({
+        error: `Vous êtes trop loin (${dist.toFixed(1)} km). Rapprochez-vous du lieu de la mission.`,
+      });
+    }
+  }
+
+  const result = await query(
+    `UPDATE missions SET status = 'arrived', updated_at = NOW() WHERE id = $1 RETURNING *`,
+    [req.params.id]
+  );
+
+  const io = req.app.get('io');
+  io.to(`user:${result.rows[0].user_id}`).emit('mission:status', result.rows[0]);
+  io.to(`user:${result.rows[0].user_id}`).emit('arrival:detected', result.rows[0]);
+  io.to(`pro:${result.rows[0].professional_id}`).emit('mission:status', result.rows[0]);
+  io.to(`mission:${req.params.id}`).emit('mission:status', result.rows[0]);
+
+  res.json(result.rows[0]);
+});
+
 router.post('/:id/location', validate(locationSchema), async (req: AuthRequest, res: Response) => {
   const { lat, lng } = req.body;
 

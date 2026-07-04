@@ -58,14 +58,14 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.md,
   },
   title: {
-    fontSize: FontSize.xl,
+    fontSize: FontSize.title,
     fontWeight: '700',
-    color: Colors.gray900,
+    color: Colors.black,
     marginBottom: Spacing.sm,
   },
   message: {
-    fontSize: FontSize.md,
-    color: Colors.gray600,
+    fontSize: FontSize.body,
+    color: Colors.mediumGray,
     textAlign: 'center',
     marginBottom: Spacing.lg,
   },
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: Colors.white,
-    fontSize: FontSize.md,
+    fontSize: FontSize.body,
     fontWeight: '600',
   },
 });

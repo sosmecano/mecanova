@@ -164,6 +164,9 @@ export const api = {
     updateStatus: (id: string, status: string) => request(`/missions/${id}/status`, {
       method: 'PATCH', body: JSON.stringify({ status }),
     }),
+    arrive: (id: string, lat: number, lng: number) => request(`/missions/${id}/arrive`, {
+      method: 'POST', body: JSON.stringify({ lat, lng }),
+    }),
     updateLocation: (id: string, lat: number, lng: number) => request(`/missions/${id}/location`, {
       method: 'POST', body: JSON.stringify({ lat, lng }),
     }),

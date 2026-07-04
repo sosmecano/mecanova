@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
+import { useEffect, useRef, useState, useCallback } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, ActivityIndicator, Linking, RefreshControl, Vibration } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as SecureStore from 'expo-secure-store';
 import { Ionicons } from '@expo/vector-icons';
@@ -33,6 +33,8 @@ export default function TrackingScreen({ navigation, route }: any) {
   const [loading, setLoading] = useState(true);
   const [showInfo, setShowInfo] = useState(true);
   const [followMode, setFollowMode] = useState(true);
+  const [arrivalNotified, setArrivalNotified] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const followRef = useRef(true);
   const mapRef = useRef<MapView>(null);
 
@@ -55,6 +57,19 @@ export default function TrackingScreen({ navigation, route }: any) {
       }, 500);
     }
   };
+
+  const fetchHistory = useCallback(async () => {
+    try {
+      const missions = await api.users.missions();
+      setHistory(missions);
+    } catch {}
+  }, []);
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await fetchHistory();
+    setRefreshing(false);
+  }, [fetchHistory]);
 
   useEffect(() => {
     let socket: any = null;
@@ -89,6 +104,10 @@ export default function TrackingScreen({ navigation, route }: any) {
               }
             });
             socket.on('mission:status', (data: any) => { setActiveMission((prev: any) => prev ? { ...prev, ...data } : data); });
+            socket.on('arrival:detected', () => {
+              setArrivalNotified(true);
+              Vibration.vibrate(500);
+            });
           }
         } catch {}
         setLoading(false);
@@ -106,25 +125,13 @@ export default function TrackingScreen({ navigation, route }: any) {
             socket.emit('join:mission', active.id);
             socket.on('tracking:update', (data: { lat: number; lng: number }) => {
               setProLocation(data);
-              if (followRef.current) {
-                const hasDeparture = active?.location_lat && active?.location_lng;
-                if (hasDeparture) {
-                  mapRef.current?.fitToCoordinates([
-                    { latitude: active.location_lat, longitude: active.location_lng },
-                    { latitude: data.lat, longitude: data.lng },
-                  ], {
-                    edgePadding: { top: 40, right: 20, bottom: 50, left: 20 },
-                    animated: true,
-                  });
-                } else {
-                  mapRef.current?.animateToRegion({
-                    latitude: data.lat, longitude: data.lng,
-                    latitudeDelta: 0.005, longitudeDelta: 0.005,
-                  }, 1000);
-                }
-              }
+              if (followRef.current) recenterPro();
             });
             socket.on('mission:status', (data: any) => { setActiveMission((prev: any) => prev ? { ...prev, ...data } : data); });
+            socket.on('arrival:detected', () => {
+              setArrivalNotified(true);
+              Vibration.vibrate(500);
+            });
           }
         } else {
           setHistory(missions);
@@ -133,7 +140,7 @@ export default function TrackingScreen({ navigation, route }: any) {
       setLoading(false);
     })();
     return () => {
-      if (socket) { socket.off('tracking:update'); socket.off('mission:status'); }
+      if (socket) { socket.off('tracking:update'); socket.off('mission:status'); socket.off('arrival:detected'); }
     };
   }, []);
 
@@ -194,10 +201,10 @@ export default function TrackingScreen({ navigation, route }: any) {
             </View>
           </View>
 
-          {activeMission?.status === 'arrived' && (
+          {(activeMission?.status === 'arrived' || arrivalNotified) && (
             <View style={styles.arrivalBanner}>
               <Ionicons name="checkmark-circle" size={22} color="#fff" />
-              <Text style={styles.arrivalBannerText}>Le mécanicien est arrivé !</Text>
+              <Text style={styles.arrivalBannerText}>Le professionnel est arrivé !</Text>
             </View>
           )}
 
@@ -256,7 +263,10 @@ export default function TrackingScreen({ navigation, route }: any) {
           <Text style={styles.emptySub}>Vous n'avez pas encore de mission{'\n'}Utilisez l'accueil pour en créer une</Text>
         </View>
       ) : (
-        <ScrollView contentContainerStyle={styles.list}>
+        <ScrollView
+          contentContainerStyle={styles.list}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={Colors.primary} />}
+        >
           {history.map((m: any, i: number) => (
             <TouchableOpacity
               key={m.id || i}

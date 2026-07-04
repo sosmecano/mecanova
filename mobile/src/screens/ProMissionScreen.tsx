@@ -12,7 +12,6 @@ import { api } from '../services/api';
 import { connectSocket, disconnectSocket } from '../services/socket';
 
 const LOCATION_TASK_NAME = 'background-location';
-const BASE_URL = 'http://192.168.100.104:4000/api';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -24,7 +23,7 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }: any) => {
     const missionId = await SecureStore.getItemAsync('tracking_mission_id');
     if (!token || !missionId || !location) return;
     try {
-      await fetch(`${BASE_URL}/missions/${missionId}/location`, {
+      await fetch('https://mecaci.onrender.com/api/missions/${missionId}/location', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ lat: location.coords.latitude, lng: location.coords.longitude }),
@@ -176,14 +175,16 @@ export default function ProMissionScreen({ route, navigation }: any) {
             const dist = haversineDistance(lat, lng, clientLocRef.current.lat, clientLocRef.current.lng);
             if (dist < ARRIVAL_THRESHOLD) {
               arrivalTriggeredRef.current = true;
-              api.missions.updateStatus(missionId, 'arrived').catch(() => {});
+              api.missions.arrive(missionId, lat, lng).catch(() => {
+                api.missions.updateStatus(missionId, 'arrived').catch(() => {});
+              });
             }
           }
 
           const now = Date.now();
           if (now - lastEmit >= 3000) {
             lastEmit = now;
-            socket.emit('tracking:location', { missionId, lat, lng });
+            s.emit('tracking:location', { missionId, lat, lng });
           }
         }
       );
