@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import {
   View, Text, StyleSheet, SafeAreaView, ScrollView, Switch,
-  TouchableOpacity, ActivityIndicator, Vibration, Animated, Dimensions, Alert,
+  TouchableOpacity, ActivityIndicator, Vibration, Animated, Dimensions,
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as SecureStore from 'expo-secure-store';
 import { Colors, FontSize, Spacing, BorderRadius } from '../constants/theme';
 import Button from '../components/Button';
 import Card from '../components/Card';
-import { connectSocket, disconnectSocket } from '../services/socket';
+import { connectSocket, disconnectSocket, onReconnect } from '../services/socket';
 import { api } from '../services/api';
 import { playRing, stopRing } from '../../modules/sound-player/src/index';
 
@@ -27,6 +27,29 @@ export default function ProHomeScreen({ navigation }: any) {
   const socketRef = useRef<any>(null);
 
   const fetchedRef = useRef(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  function startPolling() {
+    if (intervalRef.current) return;
+    intervalRef.current = setInterval(async () => {
+      try {
+        const nearby = await api.professionals.nearbyMissions();
+        nearby.forEach((m: any) => {
+          if (!knownIdsRef.current.has(m.id)) {
+            knownIdsRef.current.add(m.id);
+            showIncoming(m);
+          }
+        });
+      } catch {}
+    }, 15000);
+  }
+
+  function stopPolling() {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  }
 
   function showIncoming(mission: any) {
     setIncoming(mission);
@@ -66,37 +89,46 @@ export default function ProHomeScreen({ navigation }: any) {
           socketRef.current = s;
           s.emit('join:pro', proData.id);
           s.on('new:mission', (data: any) => {
+            stopPolling();
             const mission = data.mission || data;
             if (!knownIdsRef.current.has(mission.id)) {
               knownIdsRef.current.add(mission.id);
               showIncoming(mission);
             }
           });
+          s.on('disconnect', () => startPolling());
+          if (!s.connected) startPolling();
         }
       } catch (e: any) {
-        Alert.alert('Erreur', e.message);
+        startPolling();
       } finally {
         setLoading(false);
       }
     })();
 
-    const interval = setInterval(async () => {
-      try {
-        const nearby = await api.professionals.nearbyMissions();
-        nearby.forEach((m: any) => {
-          if (!knownIdsRef.current.has(m.id)) {
-            knownIdsRef.current.add(m.id);
-            showIncoming(m);
+    const unsubReconnect = onReconnect(async () => {
+      stopPolling();
+      const token = await SecureStore.getItemAsync('auth_token');
+      if (token && pro?.id) {
+        const s = connectSocket(token);
+        socketRef.current = s;
+        s.emit('join:pro', pro.id);
+        s.on('new:mission', (data: any) => {
+          const mission = data.mission || data;
+          if (!knownIdsRef.current.has(mission.id)) {
+            knownIdsRef.current.add(mission.id);
+            showIncoming(mission);
           }
         });
-      } catch {}
-    }, 5000);
+      }
+    });
 
     return () => {
       Vibration.cancel();
       stopRing();
-      clearInterval(interval);
-      if (socketRef.current) { socketRef.current.off('new:mission'); disconnectSocket(); }
+      stopPolling();
+      unsubReconnect();
+      if (socketRef.current) { socketRef.current.off('new:mission'); socketRef.current.off('disconnect'); disconnectSocket(); }
     };
   }, []);
 
