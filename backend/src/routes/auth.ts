@@ -66,7 +66,7 @@ router.post('/verify-otp', validate(verifyOtpSchema), async (req: Request, res: 
       userId: user.rows[0].id,
       role,
     });
-    const refreshToken = signRefreshToken(user.rows[0].id, null, role);
+    const refreshToken = await signRefreshToken(user.rows[0].id, null, role);
 
     res.json({ token, refreshToken, role, user: user.rows[0] });
   } catch (err) {
@@ -96,7 +96,7 @@ router.post('/admin-verify', validate(adminVerifySchema), async (req: Request, r
       userId: user.rows[0].id,
       role: 'admin',
     });
-    const refreshToken = signRefreshToken(user.rows[0].id, null, 'admin');
+    const refreshToken = await signRefreshToken(user.rows[0].id, null, 'admin');
 
     res.json({ token, refreshToken, user: user.rows[0] });
   } catch (err) {
@@ -108,7 +108,7 @@ router.post('/refresh', validate(refreshTokenSchema), async (req: Request, res: 
   try {
     const { refreshToken } = req.body;
 
-    const data = verifyRefreshToken(refreshToken);
+    const data = await verifyRefreshToken(refreshToken);
     if (!data) return res.status(401).json({ error: 'Invalid or expired refresh token' });
 
     const token = signToken({
@@ -116,7 +116,7 @@ router.post('/refresh', validate(refreshTokenSchema), async (req: Request, res: 
       proId: data.proId,
       role: data.role,
     });
-    const newRefreshToken = signRefreshToken(data.userId, data.proId, data.role);
+    const newRefreshToken = await signRefreshToken(data.userId, data.proId, data.role);
 
     res.json({ token, refreshToken: newRefreshToken });
   } catch (err) {

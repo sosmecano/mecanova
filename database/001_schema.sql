@@ -172,4 +172,17 @@ CREATE INDEX idx_missions_status ON missions(status);
 CREATE INDEX idx_missions_created ON missions(created_at DESC);
 CREATE INDEX idx_professionals_location ON professionals(city);
 CREATE INDEX idx_professionals_type_status ON professionals(type, status);
+CREATE TABLE refresh_tokens (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  pro_id UUID REFERENCES professionals(id) ON DELETE CASCADE,
+  token VARCHAR(128) UNIQUE NOT NULL,
+  role VARCHAR(20) NOT NULL,
+  expires_at TIMESTAMPTZ NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE INDEX idx_refresh_tokens_token ON refresh_tokens(token);
+CREATE INDEX idx_refresh_tokens_user ON refresh_tokens(user_id);
+CREATE INDEX idx_refresh_tokens_pro ON refresh_tokens(pro_id);
 CREATE INDEX idx_vehicles_user ON vehicles(user_id);

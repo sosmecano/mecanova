@@ -21,6 +21,7 @@ const tables: Record<string, Row[]> = {
   subscriptions: [],
   garages: [],
   diagnoses: [],
+  refresh_tokens: [],
 };
 
 let nextId = 1;

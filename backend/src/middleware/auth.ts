@@ -45,6 +45,6 @@ export function signToken(payload: any) {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '15m' });
 }
 
-export function signRefreshToken(userId: string | null, proId: string | null, role: 'client' | 'professional' | 'admin'): string {
+export async function signRefreshToken(userId: string | null, proId: string | null, role: 'client' | 'professional' | 'admin'): Promise<string> {
   return createRefreshToken(userId, proId, role);
 }
