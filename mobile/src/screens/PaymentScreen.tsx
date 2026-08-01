@@ -48,7 +48,7 @@ export default function PaymentScreen({ route, navigation }: any) {
             <Text style={styles.detailValue}>{route?.params?.amount || '12 000'} FCFA</Text>
           </View>
           <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Commission MecaCI</Text>
+            <Text style={styles.detailLabel}>Commission Mecanova</Text>
             <Text style={styles.detailValue}>{Math.round((route?.params?.amount || 12000) * 0.1)} FCFA</Text>
           </View>
         </View>

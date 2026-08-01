@@ -28,7 +28,7 @@ if (!JWT_SECRET) {
   throw new Error('JWT_SECRET environment variable is required');
 }
 
-const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || 'http://localhost:5173,http://localhost:8081,https://meca-ci-theta.vercel.app').split(',');
+const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || 'http://localhost:5173,http://localhost:8081,https://mecanova-admin.vercel.app').split(',');
 
 const app = express();
 const httpServer = createServer(app);
@@ -47,7 +47,7 @@ app.use(cors({
 app.use(express.json({ limit: '1mb' }));
 
 app.get('/', (_req, res) => {
-  res.json({ status: 'ok', app: 'MecaCI API', version: '1.0.0' });
+  res.json({ status: 'ok', app: 'Mecanova API', version: '1.0.0' });
 });
 
 const otpLimiter = rateLimit({
@@ -154,7 +154,7 @@ async function autoSeed() {
 const PORT = parseInt(process.env.PORT || '4000', 10);
 autoSeed().then(() => {
   httpServer.listen(PORT, '0.0.0.0', () => {
-    console.log(`MecaCI API running on http://0.0.0.0:${PORT}`);
+    console.log(`Mecanova API running on http://0.0.0.0:${PORT}`);
   });
 });
 

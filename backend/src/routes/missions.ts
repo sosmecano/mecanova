@@ -12,7 +12,7 @@ router.use(authenticate);
 async function geocodeAddress(address: string): Promise<{ lat: number; lng: number } | null> {
   try {
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1`;
-    const res = await fetch(url, { headers: { 'User-Agent': 'MecaCI/1.0' } });
+    const res = await fetch(url, { headers: { 'User-Agent': 'Mecanova/1.0' } });
     const data = await res.json() as any[];
     if (data?.length > 0) {
       return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };

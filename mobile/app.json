@@ -1,17 +1,17 @@
 {
   "expo": {
-    "name": "MecaCI",
-    "slug": "mecaci",
+    "name": "Mecanova",
+    "slug": "mecanova",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.mecaci.mobile",
+      "bundleIdentifier": "com.mecanova.mobile",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "MecaCI utilise votre position pour trouver des mécaniciens et garages à proximité.",
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "MecaCI suit votre position en arrière-plan pour partager votre localisation avec le professionnel pendant une mission.",
+        "NSLocationWhenInUseUsageDescription": "Mecanova utilise votre position pour trouver des mécaniciens et garages à proximité.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "Mecanova suit votre position en arrière-plan pour partager votre localisation avec le professionnel pendant une mission.",
         "UIBackgroundModes": ["location", "fetch"]
       }
     },
@@ -22,7 +22,7 @@
         "backgroundImage": "./assets/icon.png"
       },
       "predictiveBackGestureEnabled": false,
-      "package": "com.mecaci.mobile",
+      "package": "com.mecanova.mobile",
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",

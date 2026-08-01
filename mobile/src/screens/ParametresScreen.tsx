@@ -212,7 +212,7 @@ export default function ParametresScreen({ navigation }: any) {
         <Text style={styles.sectionTitle}>À propos</Text>
         <View style={styles.card}>
           <ProfileRow label="Version" value="1.0.0" />
-          <ProfileRow label="Développeur" value="MecaCI" last />
+          <ProfileRow label="Développeur" value="Mecanova" last />
         </View>
 
         <TouchableOpacity style={styles.deleteBtn}>

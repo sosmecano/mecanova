@@ -17,7 +17,7 @@ router.post('/send-otp', validate(sendOtpSchema), async (req: Request, res: Resp
     const normalized = phone.replace(/[\s\-\+]/g, '');
     storeOtp(normalized, code);
 
-    sendSms(normalized, `Votre code MecaCI : ${code}. Valable 2 minutes.`);
+    sendSms(normalized, `Votre code Mecanova : ${code}. Valable 2 minutes.`);
 
     res.json({ message: 'Code sent', expires_in: 120, code });
   } catch (err) {
@@ -47,7 +47,7 @@ router.post('/verify-otp', validate(verifyOtpSchema), async (req: Request, res: 
       }
 
       const name = firstName?.trim() || 'Client';
-      const surname = lastName?.trim() || 'MecaCI';
+      const surname = lastName?.trim() || 'Mecanova';
       const newUser = await query(
         `INSERT INTO users (phone, first_name, last_name, city) VALUES ($1, $2, $3, $4) RETURNING *`,
         [normalizedPhone, name, surname, city || null]

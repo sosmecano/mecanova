@@ -28,7 +28,7 @@ export default function App() {
   return (
     <div style={styles.layout}>
       <nav style={styles.sidebar}>
-        <h2 style={styles.logo}>MecaCI</h2>
+        <h2 style={styles.logo}>Mecanova</h2>
         <p style={styles.logoSub}>Admin</p>
         <button onClick={() => setPage('dashboard')} style={{ ...styles.navBtn, background: page === 'dashboard' ? '#007AFF' : 'transparent', color: page === 'dashboard' ? '#fff' : '#1D1D1F' }}>📊 Dashboard</button>
         <button onClick={() => setPage('professionals')} style={{ ...styles.navBtn, background: page === 'professionals' ? '#007AFF' : 'transparent', color: page === 'professionals' ? '#fff' : '#1D1D1F' }}>👥 Professionnels</button>

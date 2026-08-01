@@ -1,7 +1,7 @@
 import * as SecureStore from 'expo-secure-store';
 import { File, UploadType } from 'expo-file-system';
 
-const BASE_URL = 'https://mecaci.onrender.com/api';
+const BASE_URL = 'https://mecanova.onrender.com/api';
 const TOKEN_KEY = 'auth_token';
 const REFRESH_TOKEN_KEY = 'refresh_token';
 

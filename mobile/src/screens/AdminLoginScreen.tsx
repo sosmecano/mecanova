@@ -66,7 +66,7 @@ export default function AdminLoginScreen({ navigation }: any) {
           <Text style={styles.logoIcon}>⚙️</Text>
         </View>
         <Text style={styles.title}>Back-office</Text>
-        <Text style={styles.subtitle}>Administration MecaCI</Text>
+        <Text style={styles.subtitle}>Administration Mecanova</Text>
 
         {step === 'phone' ? (
           <>

@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: mecaci-backend
+    name: mecanova-backend
     env: node
     buildCommand: npm install && npm run build
     startCommand: npm start
@@ -12,6 +12,6 @@ services:
       - key: DATABASE_URL
         sync: false
       - key: CORS_ORIGINS
-        value: https://mecaci-admin.vercel.app
+        value: https://mecanova-admin.vercel.app
       - key: ADMIN_PHONES
         sync: false

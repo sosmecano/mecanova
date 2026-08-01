@@ -26,7 +26,7 @@ if (!JWT_SECRET) {
   throw new Error('JWT_SECRET environment variable is required');
 }
 
-const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || 'http://localhost:5173,http://localhost:8081,https://meca-ci-theta.vercel.app').split(',');
+const ALLOWED_ORIGINS = (process.env.CORS_ORIGINS || 'http://localhost:5173,http://localhost:8081,https://mecanova-admin.vercel.app').split(',');
 
 const app = express();
 
@@ -38,7 +38,7 @@ app.use(cors({
 app.use(express.json({ limit: '1mb' }));
 
 app.get('/', (_req, res) => {
-  res.json({ status: 'ok', app: 'MecaCI API', version: '1.0.0' });
+  res.json({ status: 'ok', app: 'Mecanova API', version: '1.0.0' });
 });
 
 const otpLimiter = rateLimit({

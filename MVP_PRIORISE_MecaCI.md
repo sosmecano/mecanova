@@ -1,4 +1,4 @@
-# MecaCI — MVP priorisé
+# Mecanova — MVP priorisé
 
 ## Lancer vite, apprendre vite, itérer
 
@@ -63,7 +63,7 @@
 ### Écran 1 — Inscription (P0)
 
 ```
-[Logo MecaCI]
+[Logo Mecanova]
 [Illustration]
 
 Numéro de téléphone : [____]
@@ -134,7 +134,7 @@ Véhicule : 🚐 ABC-123
 Intervention terminée ✅
 
 Montant : 8 500 FCFA
-Commission MecaCI : 500 FCFA
+Commission Mecanova : 500 FCFA
 Total à payer : 9 000 FCFA
 
 Payer par :
@@ -505,4 +505,4 @@ Une fonctionnalité MVP est considérée comme livrée quand :
 
 *Document généré le 14 juin 2026 — Version 1.0*
 
-**MecaCI** — Le mécanicien et le dépannage à portée de main
+**Mecanova** — Le mécanicien et le dépannage à portée de main

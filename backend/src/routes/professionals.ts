@@ -36,7 +36,7 @@ router.post('/send-otp', validate(sendOtpSchema), async (req: Request, res: Resp
     const normalized = phone.replace(/[\s\-\+]/g, '');
     storeOtp(normalized, code);
 
-    sendSms(normalized, `Votre code MecaCI pro : ${code}. Valable 2 minutes.`);
+    sendSms(normalized, `Votre code Mecanova pro : ${code}. Valable 2 minutes.`);
 
     res.json({ message: 'Code sent', expires_in: 120, code });
   } catch (err) {

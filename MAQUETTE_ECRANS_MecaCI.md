@@ -1,4 +1,4 @@
-# MecaCI — Maquette fonctionnelle des écrans
+# Mecanova — Maquette fonctionnelle des écrans
 
 ## Design System & Direction artistique « Apple »
 
@@ -20,7 +20,7 @@
 | Fond secondaire | Gris clair | `#F5F5F7` |
 | Texte principal | Noir | `#1D1D1F` |
 | Texte secondaire | Gris | `#86868B` |
-| Accent principal | Bleu MecaCI | `#007AFF` |
+| Accent principal | Bleu Mecanova | `#007AFF` |
 | Urgence / SOS | Rouge | `#FF3B30` |
 | Succès | Vert | `#34C759` |
 | Séparateurs | Gris ultra clair | `#E5E5EA` |
@@ -63,7 +63,7 @@
 │                              │
 │                              │
 │            [Logo]            │
-│           MecaCI             │
+│           Mecanova             │
 │   Le mécanicien et le        │
 │   dépannage à portée de main │
 │                              │
@@ -77,7 +77,7 @@
 
 | Élément | Description |
 | ------- | ----------- |
-| **Logo** | Icône épurée : lettrage MecaCI, monochrome, ou symbole stylisé (clé à molette + marqueur de carte, fin) |
+| **Logo** | Icône épurée : lettrage Mecanova, monochrome, ou symbole stylisé (clé à molette + marqueur de carte, fin) |
 | **Slogan** | En gris secondaire, taille 15px |
 | **Fond** | Blanc, ou dégradé subtil bleu très clair vers blanc |
 | **Animation** | Logo apparaît avec fade, slogan slide up doux |
@@ -687,7 +687,7 @@
 │  │ Intervention terminée  │ │
 │  │                        │ │
 │  │ Montant : 12 000 FCFA  │ │
-│  │ Commission MecaCI :    │ │
+│  │ Commission Mecanova :    │ │
 │  │ 500 FCFA               │ │
 │  │ ──────────────────     │ │
 │  │ Total : 12 500 FCFA    │ │
@@ -1208,7 +1208,7 @@
 ┌──────────────────────────────┐
 │  ← Retour                    │
 │                              │
-│  Devenir partenaire MecaCI   │
+│  Devenir partenaire Mecanova   │
 │                              │
 │  Étape 1/3 : Votre profil    │
 │                              │
@@ -1324,7 +1324,7 @@
 │                              │
 │  Votre demande est en cours  │
 │  de validation par l'équipe │
-│  MecaCI.                     │
+│  Mecanova.                     │
 │                              │
 │  Vous serez notifié dès      │
 │  votre compte activé.        │
@@ -1465,7 +1465,7 @@
 │  Montant facturé             │
 │  [12 000] FCFA               │
 │                              │
-│  Commission MecaCI (10%)     │
+│  Commission Mecanova (10%)     │
 │  1 200 FCFA                 │
 │  ─────────────────           │
 │  Net : 10 800 FCFA          │
@@ -1540,7 +1540,7 @@
 
 ```
 ┌─────────────────────────────────────────────────┐
-│  MecaCI Admin                         👤 Admin  │
+│  Mecanova Admin                         👤 Admin  │
 │                                                   │
 │  ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐           │
 │  │ 📊   │ │ 👥   │ │ 🔧  │ │ 💰  │           │
@@ -1707,4 +1707,4 @@
 
 *Document généré le 14 juin 2026 — Version 1.0*
 
-**MecaCI** — Le mécanicien et le dépannage à portée de main
+**Mecanova** — Le mécanicien et le dépannage à portée de main

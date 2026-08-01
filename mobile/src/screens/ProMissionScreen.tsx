@@ -23,7 +23,7 @@ TaskManager.defineTask(LOCATION_TASK_NAME, async ({ data, error }: any) => {
     const missionId = await SecureStore.getItemAsync('tracking_mission_id');
     if (!token || !missionId || !location) return;
     try {
-      await fetch('https://mecaci.onrender.com/api/missions/${missionId}/location', {
+      await fetch('https://mecanova.onrender.com/api/missions/${missionId}/location', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
         body: JSON.stringify({ lat: location.coords.latitude, lng: location.coords.longitude }),
@@ -133,7 +133,7 @@ export default function ProMissionScreen({ route, navigation }: any) {
           timeInterval: 10000,
           distanceInterval: 10,
           foregroundService: {
-            notificationTitle: 'MecaCI',
+            notificationTitle: 'Mecanova',
             notificationBody: 'Partage de position actif',
             notificationColor: '#FFD100',
           },

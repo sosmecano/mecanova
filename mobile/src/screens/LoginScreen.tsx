@@ -71,7 +71,7 @@ export default function LoginScreen({ navigation }: any) {
         <View style={styles.logoRow}>
           <Text style={styles.logoIcon}>🔧</Text>
         </View>
-        <Text style={styles.title}>MecaCI</Text>
+        <Text style={styles.title}>Mecanova</Text>
         <Text style={styles.subtitle}>Le mécanicien à portée de main</Text>
 
         <View style={styles.form}>

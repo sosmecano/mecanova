@@ -42,7 +42,7 @@ export default function SplashScreen({ navigation }: any) {
   return (
     <View style={styles.container}>
       <Text style={styles.icon}>🔧</Text>
-      <Text style={styles.title}>MecaCI</Text>
+      <Text style={styles.title}>Mecanova</Text>
       <ActivityIndicator size="large" color={Colors.black} style={styles.spinner} />
     </View>
   );

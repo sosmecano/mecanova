@@ -4,7 +4,7 @@ const twilioFrom = process.env.TWILIO_FROM_NUMBER;
 
 const orangeClientId = process.env.ORANGE_CLIENT_ID;
 const orangeClientSecret = process.env.ORANGE_CLIENT_SECRET;
-const orangeSender = process.env.ORANGE_SENDER_ADDRESS || 'MecaCI';
+const orangeSender = process.env.ORANGE_SENDER_ADDRESS || 'Mecanova';
 
 let twilioClient: any = null;
 if (twilioAccountSid && twilioAuthToken) {

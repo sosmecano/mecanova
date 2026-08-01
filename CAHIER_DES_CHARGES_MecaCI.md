@@ -1,4 +1,4 @@
-# MecaCI
+# Mecanova
 
 ## Le mécanicien et le dépannage à portée de main
 
@@ -16,7 +16,7 @@
 
 # Résumé exécutif
 
-MecaCI est une plateforme mobile de mise en relation entre automobilistes et professionnels de l'automobile (mécaniciens, remorqueurs, garages) lancée en Côte d'Ivoire.
+Mecanova est une plateforme mobile de mise en relation entre automobilistes et professionnels de l'automobile (mécaniciens, remorqueurs, garages) lancée en Côte d'Ivoire.
 
 **Problème :** Les automobilistes ivoiriens peinent à trouver rapidement un mécanicien fiable, manquent de visibilité sur les prix et ne disposent d'aucun suivi structuré pour l'entretien de leur véhicule.
 
@@ -67,13 +67,13 @@ MecaCI est une plateforme mobile de mise en relation entre automobilistes et pro
 
 | Champ                 | Valeur                                          |
 | --------------------- | ----------------------------------------------- |
-| Nom du projet         | MecaCI                                          |
+| Nom du projet         | Mecanova                                          |
 | Slogan                | Le mécanicien et le dépannage à portée de main  |
 | Zone de lancement     | Côte d'Ivoire                                   |
 | Type de solution      | Plateforme mobile de mise en relation           |
 | Concept               | « Uber des mécaniciens » en Côte d'Ivoire       |
 
-MecaCI est une **application mobile** qui permet à un utilisateur en panne ou ayant besoin d'un service automobile de :
+Mecanova est une **application mobile** qui permet à un utilisateur en panne ou ayant besoin d'un service automobile de :
 
 - trouver rapidement un mécanicien, un remorqueur ou un garage à proximité ;
 - consulter un prix estimatif ;
@@ -98,7 +98,7 @@ En Côte d'Ivoire, les automobilistes rencontrent plusieurs difficultés :
 | Manque d'historique structuré d'entretien     | Perte d'information, défaut de suivi             |
 | Stress important en cas de panne urgente      | Prise de décision sous pression, mauvaise expérience |
 
-**MecaCI** répond à cette problématique en centralisant l'offre de services automobiles dans une application unique, intuitive, rapide et sécurisée.
+**Mecanova** répond à cette problématique en centralisant l'offre de services automobiles dans une application unique, intuitive, rapide et sécurisée.
 
 ---
 
@@ -168,13 +168,13 @@ La vision produit repose sur **5 piliers** :
 
 ## 5.3 Administrateur plateforme
 
-Équipe MecaCI en charge de la modération, du support, de la facturation et du pilotage opérationnel et commercial.
+Équipe Mecanova en charge de la modération, du support, de la facturation et du pilotage opérationnel et commercial.
 
 ---
 
 # 6. Positionnement et proposition de valeur
 
-MecaCI se positionne comme une **super app automobile locale**, combinant :
+Mecanova se positionne comme une **super app automobile locale**, combinant :
 
 | Service                      | Description                                         |
 | ---------------------------- | --------------------------------------------------- |
@@ -193,13 +193,13 @@ MecaCI se positionne comme une **super app automobile locale**, combinant :
 
 # 7. Périmètre fonctionnel global
 
-L'écosystème MecaCI comprend trois briques principales :
+L'écosystème Mecanova comprend trois briques principales :
 
 | Briques              | Type         | Cible                         |
 | -------------------- | ------------ | ----------------------------- |
 | Application client   | Mobile       | Automobilistes                |
 | Espace professionnel | Mobile       | Mécaniciens, remorqueurs, garages |
-| Back-office admin   | Web          | Équipe MecaCI                 |
+| Back-office admin   | Web          | Équipe Mecanova                 |
 
 ---
 
@@ -384,7 +384,7 @@ L'écosystème MecaCI comprend trois briques principales :
 | Téléphone                         | Texte   |
 | Services                          | Liste   |
 | Prix indicatifs                   | Texte   |
-| Nombre d'interventions via MecaCI | Nombre  |
+| Nombre d'interventions via Mecanova | Nombre  |
 
 ---
 
@@ -538,7 +538,7 @@ L'espace professionnel peut être disponible via une application dédiée ou une
 
 1. Création de compte
 2. Dépôt des pièces
-3. Validation par l'équipe MecaCI
+3. Validation par l'équipe Mecanova
 4. Activation du compte
 5. Formation rapide à l'usage de l'application
 
@@ -787,7 +787,7 @@ Prise photo → Analyse → Proposition solution → Mise en relation recommand�
 | --------------------- | ----------- | -------- |
 | Application client    | Mobile      | Particuliers |
 | Application pro       | Mobile      | Professionnels |
-| Back-office admin     | Web         | Équipe MecaCI |
+| Back-office admin     | Web         | Équipe Mecanova |
 
 ## 15.2 Approche technique
 
@@ -1119,7 +1119,7 @@ Le projet sera considéré comme conforme si :
 
 | Terme | Définition |
 | ----- | ---------- |
-| Back-office | Interface d'administration web pour l'équipe MecaCI |
+| Back-office | Interface d'administration web pour l'équipe Mecanova |
 | CDC | Cahier des charges |
 | Commission | Pourcentage prélevé par la plateforme sur une mission |
 | Devis | Document estimatif ou ferme du coût d'une intervention |
@@ -1139,4 +1139,4 @@ Le projet sera considéré comme conforme si :
 
 *Document généré le 14 juin 2026 — Version 1.0*
 
-**MecaCI** — Le mécanicien et le dépannage à portée de main
+**Mecanova** — Le mécanicien et le dépannage à portée de main
