@@ -54,23 +54,25 @@ async function seed() {
         ($4, 'Peugeot', '3008',      2022, 'QR-345-ST')
     `, [mecanicienId, remorqueurId, client3Id, client4Id] as any);
 
-    await query(`
+    const missionsRes = await query(`
       INSERT INTO missions (user_id, professional_id, service_type, description, location_address, status, location_lat, location_lng) VALUES
-        ($1, $2, 'mechanic',  'Batterie à remplacer',    'Cocody Angré',             'completed',    5.345, -4.015),
-        ($1, $2, 'mechanic',  'Vidange + filtre à huile','Cocody Riviera',           'in_progress',  5.350, -4.010),
-        ($4, $2, 'mechanic',  'Diagnostic moteur',       'Marcory Zone 4',           'pending',      5.320, -3.990),
-        ($1, $3, 'tow_truck', 'Panne sur autoroute',     'Autoroute du Nord, PK 12', 'completed',    5.400, -4.050),
-        ($5, $3, 'tow_truck', 'Accident léger',          'Treichville Carrefour',    'cancelled',    5.310, -4.000),
-        ($2, $3, 'tow_truck', 'Véhicule en panne',       'Plateau',                  'completed',    5.330, -4.020),
-        ($1, $5, 'garage',    'Révision complète',       'Cocody Angré',             'pending',      5.345, -4.015)
-    `, []);
+        ($1, $6, 'mechanic',            'Batterie à remplacer',    'Cocody Angré',             'completed',    5.345, -4.015),
+        ($1, $6, 'mechanic',            'Vidange + filtre à huile','Cocody Riviera',           'in_progress',  5.350, -4.010),
+        ($4, $6, 'mechanic',            'Diagnostic moteur',       'Marcory Zone 4',           'pending',      5.320, -3.990),
+        ($1, $7, 'towing',              'Panne sur autoroute',     'Autoroute du Nord, PK 12', 'completed',    5.400, -4.050),
+        ($5, $7, 'towing',              'Accident léger',          'Treichville Carrefour',    'cancelled',    5.310, -4.000),
+        ($2, $7, 'towing',              'Véhicule en panne',       'Plateau',                  'completed',    5.330, -4.020),
+        ($1, $8, 'garage_appointment',  'Révision complète',       'Cocody Angré',             'pending',      5.345, -4.015)
+      RETURNING id
+    `, [mecanicienId, remorqueurId, client3Id, client4Id, client5Id, pros[0].id, pros[1].id, pros[5].id] as any);
+    const missions = missionsRes.rows;
 
     await query(`
       INSERT INTO diagnoses (mission_id, professional_id, description, amount, status) VALUES
         ($1, $2, 'Batterie HS - remplacement nécessaire', 65000,  'accepted'),
-        ($2, $2, 'Huile moteur + filtre à changer',       25000,  'pending'),
-        ($4, $3, 'Courroie de distribution cassée',       120000, 'accepted')
-    `, []);
+        ($3, $2, 'Huile moteur + filtre à changer',       25000,  'pending'),
+        ($4, $5, 'Courroie de distribution cassée',       120000, 'accepted')
+    `, [missions[0].id, pros[0].id, missions[1].id, missions[3].id, pros[1].id] as any);
 
     const garagesRes = await query(`
       INSERT INTO garages (professional_id, name, address, lat, lng, phone, specialties, hours, indicative_prices) VALUES

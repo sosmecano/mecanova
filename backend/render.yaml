@@ -3,7 +3,7 @@ services:
     name: mecanova-backend
     env: node
     buildCommand: npm install && npm run build
-    startCommand: npm start
+    startCommand: npm run migrate:prod && npm start
     envVars:
       - key: NODE_ENV
         value: production

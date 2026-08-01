@@ -2,12 +2,19 @@
   "expo": {
     "name": "Mecanova",
     "slug": "mecanova",
+    "scheme": "mecanova",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#E6F4FE"
+    },
     "ios": {
       "supportsTablet": true,
+      "buildNumber": "1",
       "bundleIdentifier": "com.mecanova.mobile",
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Mecanova utilise votre position pour trouver des mécaniciens et garages à proximité.",
@@ -23,6 +30,7 @@
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.mecanova.mobile",
+      "versionCode": 1,
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION",

@@ -306,11 +306,18 @@ let pgPoolInstance: any = null;
 async function getPool() {
   if (!pgPoolInstance && process.env.DATABASE_URL) {
     const { Pool } = await import('pg');
+    const connectionString = process.env.DATABASE_URL.replace('sslmode=require', 'sslmode=verify-full');
+    const ssl = connectionString.includes('sslmode') || process.env.NODE_ENV === 'production'
+      ? { rejectUnauthorized: false }
+      : undefined;
     pgPoolInstance = new Pool({
-      connectionString: process.env.DATABASE_URL?.replace('sslmode=require', 'sslmode=verify-full'),
+      connectionString,
       max: 20,
       idleTimeoutMillis: 30000,
-      ssl: { rejectUnauthorized: false },
+      ssl,
+    });
+    pgPoolInstance.on('error', (err: any) => {
+      console.error('Unexpected error on idle Postgres client:', err?.message);
     });
   }
   return pgPoolInstance;

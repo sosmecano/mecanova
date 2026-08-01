@@ -1,6 +1,4 @@
-CREATE EXTENSION IF NOT EXISTS "postgis";
-
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   phone VARCHAR(20) UNIQUE NOT NULL,
   first_name VARCHAR(100) NOT NULL,
@@ -13,7 +11,7 @@ CREATE TABLE users (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE vehicles (
+CREATE TABLE IF NOT EXISTS vehicles (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
   brand VARCHAR(100) NOT NULL,
@@ -31,10 +29,15 @@ CREATE TABLE vehicles (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TYPE pro_type AS ENUM ('mechanic', 'tow_truck', 'garage');
-CREATE TYPE pro_status AS ENUM ('pending', 'active', 'suspended', 'rejected');
+DO $$ BEGIN
+  CREATE TYPE pro_type AS ENUM ('mechanic', 'tow_truck', 'garage');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-CREATE TABLE professionals (
+DO $$ BEGIN
+  CREATE TYPE pro_status AS ENUM ('pending', 'active', 'suspended', 'rejected');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+CREATE TABLE IF NOT EXISTS professionals (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   phone VARCHAR(20) UNIQUE NOT NULL,
   type pro_type NOT NULL,
@@ -60,10 +63,15 @@ CREATE TABLE professionals (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TYPE mission_status AS ENUM ('pending', 'accepted', 'en_route', 'arrived', 'in_progress', 'completed', 'cancelled');
-CREATE TYPE service_type AS ENUM ('mechanic_at_home', 'emergency', 'towing', 'garage_appointment');
+DO $$ BEGIN
+  CREATE TYPE mission_status AS ENUM ('pending', 'accepted', 'en_route', 'arrived', 'in_progress', 'completed', 'cancelled');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-CREATE TABLE missions (
+DO $$ BEGIN
+  CREATE TYPE service_type AS ENUM ('mechanic', 'emergency', 'towing', 'garage_appointment');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+CREATE TABLE IF NOT EXISTS missions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES users(id),
   vehicle_id UUID REFERENCES vehicles(id),
@@ -92,10 +100,15 @@ CREATE TABLE missions (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TYPE payment_method AS ENUM ('orange_money', 'mtn_momo', 'wave', 'cash');
-CREATE TYPE payment_status AS ENUM ('pending', 'completed', 'failed', 'refunded');
+DO $$ BEGIN
+  CREATE TYPE payment_method AS ENUM ('orange_money', 'mtn_momo', 'wave', 'cash');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-CREATE TABLE payments (
+DO $$ BEGIN
+  CREATE TYPE payment_status AS ENUM ('pending', 'completed', 'failed', 'refunded');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
+
+CREATE TABLE IF NOT EXISTS payments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   mission_id UUID NOT NULL REFERENCES missions(id),
   user_id UUID NOT NULL REFERENCES users(id),
@@ -110,7 +123,7 @@ CREATE TABLE payments (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE reviews (
+CREATE TABLE IF NOT EXISTS reviews (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   mission_id UUID NOT NULL REFERENCES missions(id) UNIQUE,
   user_id UUID NOT NULL REFERENCES users(id),
@@ -120,23 +133,23 @@ CREATE TABLE reviews (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TYPE subscription_status AS ENUM ('active', 'expired', 'cancelled');
+DO $$ BEGIN
+  CREATE TYPE subscription_status AS ENUM ('active', 'expired', 'cancelled');
+EXCEPTION WHEN duplicate_object THEN NULL; END $$;
 
-CREATE TABLE subscriptions (
+CREATE TABLE IF NOT EXISTS subscriptions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   professional_id UUID NOT NULL REFERENCES professionals(id),
-  plan_type VARCHAR(50) NOT NULL,
-  amount INTEGER NOT NULL,
+  plan VARCHAR(50) NOT NULL,
+  mission_limit INTEGER DEFAULT 5,
   status subscription_status DEFAULT 'active',
-  missions_included INTEGER DEFAULT 5,
-  missions_used INTEGER DEFAULT 0,
   start_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  end_date TIMESTAMPTZ NOT NULL,
+  end_date TIMESTAMPTZ,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE garages (
+CREATE TABLE IF NOT EXISTS garages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   professional_id UUID NOT NULL REFERENCES professionals(id) UNIQUE,
   name VARCHAR(200) NOT NULL,
@@ -152,27 +165,24 @@ CREATE TABLE garages (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE TABLE diagnoses (
+CREATE TABLE IF NOT EXISTS diagnoses (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id),
-  input_type VARCHAR(50) NOT NULL,
-  input_url TEXT,
-  input_text TEXT,
-  analysis_result JSONB,
-  estimated_cost_min INTEGER,
-  estimated_cost_max INTEGER,
-  urgency_level VARCHAR(20),
-  recommended_pro_type VARCHAR(50),
-  created_at TIMESTAMPTZ DEFAULT NOW()
+  mission_id UUID NOT NULL REFERENCES missions(id),
+  professional_id UUID NOT NULL REFERENCES professionals(id),
+  description TEXT,
+  amount INTEGER,
+  status VARCHAR(20) DEFAULT 'pending',
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_missions_user ON missions(user_id);
-CREATE INDEX idx_missions_professional ON missions(professional_id);
-CREATE INDEX idx_missions_status ON missions(status);
-CREATE INDEX idx_missions_created ON missions(created_at DESC);
-CREATE INDEX idx_professionals_location ON professionals(city);
-CREATE INDEX idx_professionals_type_status ON professionals(type, status);
-CREATE TABLE refresh_tokens (
+CREATE INDEX IF NOT EXISTS idx_missions_user ON missions(user_id);
+CREATE INDEX IF NOT EXISTS idx_missions_professional ON missions(professional_id);
+CREATE INDEX IF NOT EXISTS idx_missions_status ON missions(status);
+CREATE INDEX IF NOT EXISTS idx_missions_created ON missions(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_professionals_location ON professionals(city);
+CREATE INDEX IF NOT EXISTS idx_professionals_type_status ON professionals(type, status);
+CREATE TABLE IF NOT EXISTS refresh_tokens (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
   pro_id UUID REFERENCES professionals(id) ON DELETE CASCADE,
@@ -182,7 +192,7 @@ CREATE TABLE refresh_tokens (
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-CREATE INDEX idx_refresh_tokens_token ON refresh_tokens(token);
-CREATE INDEX idx_refresh_tokens_user ON refresh_tokens(user_id);
-CREATE INDEX idx_refresh_tokens_pro ON refresh_tokens(pro_id);
-CREATE INDEX idx_vehicles_user ON vehicles(user_id);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_token ON refresh_tokens(token);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_user ON refresh_tokens(user_id);
+CREATE INDEX IF NOT EXISTS idx_refresh_tokens_pro ON refresh_tokens(pro_id);
+CREATE INDEX IF NOT EXISTS idx_vehicles_user ON vehicles(user_id);

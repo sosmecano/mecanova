@@ -74,7 +74,7 @@ export const availabilitySchema = z.object({
 
 export const createMissionSchema = z.object({
   vehicle_id: z.string().uuid().optional(),
-  service_type: z.enum(['mechanic_at_home', 'emergency', 'towing', 'garage_appointment']),
+  service_type: z.enum(['mechanic', 'emergency', 'towing', 'garage_appointment']),
   description: z.string().max(2000).optional(),
   location_lat: z.number().min(-90).max(90),
   location_lng: z.number().min(-180).max(180),
