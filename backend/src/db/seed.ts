@@ -19,7 +19,7 @@ async function seed() {
         ('2250101010103', 'Paul',  'Aka',      'paul.aka@email.com',     'Abidjan, Yopougon'),
         ('2250101010104', 'Fatou',  'Sow',      'fatou.sow@email.com',    'Abidjan, Marcory'),
         ('2250101010105', 'David',  'Koffi',    'david.koffi@email.com',  'Abidjan, Treichville'),
-        ('2250505050501', 'Admin',  'Mecanova',   'admin@mecanova.com',      'Abidjan, Cocody')
+        ('2250705417314', 'Admin',  'Mecanova',   'admin@mecanova.com',      'Abidjan, Cocody')
       RETURNING id, first_name, last_name
     `);
     const users = usersRes.rows;

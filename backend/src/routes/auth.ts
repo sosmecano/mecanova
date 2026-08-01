@@ -59,7 +59,7 @@ router.post('/verify-otp', validate(verifyOtpSchema), async (req: Request, res: 
       return res.status(404).json({ error: 'User not found' });
     }
 
-    const adminPhones = (process.env.ADMIN_PHONES || '2250505050501').split(',');
+    const adminPhones = (process.env.ADMIN_PHONES || '2250705417314').split(',');
     const role = adminPhones.includes(normalizedPhone) ? 'admin' : 'client';
 
     const token = signToken({
@@ -82,7 +82,7 @@ router.post('/admin-verify', validate(adminVerifySchema), async (req: Request, r
       return res.status(400).json({ error: 'Code invalide ou expir' });
     }
 
-    const adminPhones = (process.env.ADMIN_PHONES || '2250505050501').split(',');
+    const adminPhones = (process.env.ADMIN_PHONES || '2250705417314').split(',');
     if (!adminPhones.includes(normalizedPhone)) {
       return res.status(403).json({ error: 'Accès refusé' });
     }
