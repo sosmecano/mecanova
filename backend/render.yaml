@@ -1,6 +1,7 @@
 services:
   - type: web
-    name: mecanova-backend
+    name: mecanova
+    rootDir: backend
     env: node
     buildCommand: npm install && npm run build
     startCommand: npm run migrate:prod && npm start
