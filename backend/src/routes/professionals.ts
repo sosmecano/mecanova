@@ -6,7 +6,7 @@ import { validate } from '../middleware/validate';
 import { sendOtpSchema, registerProSchema, updateProSchema, availabilitySchema, verifyProOtpSchema } from '../schemas';
 import { haversineDistance } from '../utils/haversine';
 import { storeOtp, verifyOtp } from '../utils/otpStore';
-import { sendSms } from '../utils/sms';
+import { sendSms, isSmsConfigured } from '../utils/sms';
 
 const router = Router();
 
@@ -38,7 +38,12 @@ router.post('/send-otp', validate(sendOtpSchema), async (req: Request, res: Resp
 
     sendSms(normalized, `Votre code Mecanova pro : ${code}. Valable 2 minutes.`);
 
-    res.json({ message: 'Code sent', expires_in: 120, code });
+    const smsConfigured = isSmsConfigured();
+    if (smsConfigured) {
+      res.json({ message: 'Code sent', expires_in: 120 });
+    } else {
+      res.json({ message: 'Code sent', expires_in: 120, code });
+    }
   } catch (err) {
     res.status(500).json({ error: 'Failed to send OTP' });
   }

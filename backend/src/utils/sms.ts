@@ -14,6 +14,10 @@ if (twilioAccountSid && twilioAuthToken) {
   } catch { }
 }
 
+export function isSmsConfigured(): boolean {
+  return !!(twilioClient && twilioFrom) || !!(orangeClientId && orangeClientSecret);
+}
+
 let orangeToken: { access_token: string; expires_at: number } | null = null;
 
 async function getOrangeToken(): Promise<string | null> {
