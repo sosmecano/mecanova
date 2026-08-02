@@ -45,6 +45,7 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json({ limit: '1mb' }));
+app.set('trust proxy', 1);
 
 app.get('/', (_req, res) => {
   res.json({ status: 'ok', app: 'Mecanova API', version: '1.0.0' });

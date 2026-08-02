@@ -56,15 +56,15 @@ async function seed() {
 
     const missionsRes = await query(`
       INSERT INTO missions (user_id, professional_id, service_type, description, location_address, status, location_lat, location_lng) VALUES
-        ($1, $6, 'mechanic',            'Batterie à remplacer',    'Cocody Angré',             'completed',    5.345, -4.015),
-        ($1, $6, 'mechanic',            'Vidange + filtre à huile','Cocody Riviera',           'in_progress',  5.350, -4.010),
-        ($4, $6, 'mechanic',            'Diagnostic moteur',       'Marcory Zone 4',           'pending',      5.320, -3.990),
-        ($1, $7, 'towing',              'Panne sur autoroute',     'Autoroute du Nord, PK 12', 'completed',    5.400, -4.050),
-        ($5, $7, 'towing',              'Accident léger',          'Treichville Carrefour',    'cancelled',    5.310, -4.000),
-        ($2, $7, 'towing',              'Véhicule en panne',       'Plateau',                  'completed',    5.330, -4.020),
-        ($1, $8, 'garage_appointment',  'Révision complète',       'Cocody Angré',             'pending',      5.345, -4.015)
+        ($1, $5, 'mechanic',            'Batterie à remplacer',    'Cocody Angré',             'completed',    5.345, -4.015),
+        ($1, $5, 'mechanic',            'Vidange + filtre à huile','Cocody Riviera',           'in_progress',  5.350, -4.010),
+        ($3, $5, 'mechanic',            'Diagnostic moteur',       'Marcory Zone 4',           'pending',      5.320, -3.990),
+        ($1, $6, 'towing',              'Panne sur autoroute',     'Autoroute du Nord, PK 12', 'completed',    5.400, -4.050),
+        ($4, $6, 'towing',              'Accident léger',          'Treichville Carrefour',    'cancelled',    5.310, -4.000),
+        ($2, $6, 'towing',              'Véhicule en panne',       'Plateau',                  'completed',    5.330, -4.020),
+        ($1, $7, 'garage_appointment',  'Révision complète',       'Cocody Angré',             'pending',      5.345, -4.015)
       RETURNING id
-    `, [mecanicienId, remorqueurId, client3Id, client4Id, client5Id, pros[0].id, pros[1].id, pros[5].id] as any);
+    `, [mecanicienId, remorqueurId, client4Id, client5Id, pros[0].id, pros[1].id, pros[5].id] as any);
     const missions = missionsRes.rows;
 
     await query(`
