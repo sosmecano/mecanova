@@ -2,6 +2,7 @@
   "expo": {
     "name": "Mecanova",
     "slug": "mecanova",
+    "owner": "mecanova",
     "scheme": "mecanova",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -19,7 +20,10 @@
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "Mecanova utilise votre position pour trouver des mécaniciens et garages à proximité.",
         "NSLocationAlwaysAndWhenInUseUsageDescription": "Mecanova suit votre position en arrière-plan pour partager votre localisation avec le professionnel pendant une mission.",
-        "UIBackgroundModes": ["location", "fetch"]
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
       }
     },
     "android": {
@@ -43,6 +47,11 @@
     "plugins": [
       "expo-secure-store",
       "expo-status-bar"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "31544247-cabb-4ded-94c6-5c5ebb1be985"
+      }
+    }
   }
 }
